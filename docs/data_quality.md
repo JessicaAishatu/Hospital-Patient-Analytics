@@ -36,7 +36,12 @@ Analysis window: encounters starting 2011-01-01 to 2021-12-31. Synthea generates
 | conditions | malformed label "Severe anxiety (panic) (finding" | 96 rows, missing closing bracket | regex allows optional bracket; classed as finding | Synthea label defect |
 | conditions | COVID-19 split across "Suspected COVID-19" (96) and "COVID-19" (92) | 2 descriptions | kept separate | distinct SNOMED concepts; noted in findings |
 | payers | columns other than Id and NAME | 19 columns | dropped | describe the payer, not the encounters |
-| payers | ADDRESS/CITY/STATE/ZIP/PHONE missing | 1 row (NO_INSURANCE) | none; columns dropped | placeholder payer has no address |
+| payers | ADDRESS/CITY/STATE/ZIP/PHONE missing | 1 row (NO_INSURANCE) | none; columns dropped | placeholder payer has no address || encounters | last encounter date | 2021-11-19 | November 2021 treated as a partial month; monthly trend chart shows Jan 2011–Oct 2021 only | 19 days of data would read as a drop in demand |
+| encounters | monthly volume rises from ~100 (2011) to ~320 (2021) | — | kept; caveat printed under the trend chart | Synthea builds its population back from patients alive at the end, so early years have fewer simulated patients; not demand growth |
+| encounters | inpatient LOS (SQL) | mean 1.69 days, median 1.0 (n = 943) | reported with median | most simulated admissions last one day |
+| encounters | 30-day readmission | 310 of 943 index stays (32.9%) | reported with caveat | any-cause, within this dataset; Synthea chains admissions for chronic conditions, so the rate is far above real-world figures |
+| encounters | payer_coverage | commercial payers show $0–5 coverage against claims in the thousands | dropped from dashboard; payer kept as slicer only | Synthea payer-module artefact; not an insurance finding |
+| encounters | NO_INSURANCE share of inpatient stays | 340 of 943 (36%), highest average claims in every class | reported as an item to investigate | depends on the simulated payer module; see limitation above |
 
 Encounter mix, 2011–2021: ambulatory 13,107; wellness 9,701; outpatient 7,352; urgent care 1,989; emergency 1,548; inpatient 943.
 
